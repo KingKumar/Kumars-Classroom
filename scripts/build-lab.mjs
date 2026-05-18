@@ -10,6 +10,8 @@ const cellDistDir = resolve(cellAppDir, "dist");
 const labCellDir = resolve(rootDistDir, "cell-architecture-studio");
 const earthAppDir = resolve(rootDir, "layers-of-earth");
 const labEarthDir = resolve(rootDistDir, "layers-of-earth");
+const eclipsesAppDir = resolve(rootDir, "solar-lunar-eclipses");
+const labEclipsesDir = resolve(rootDistDir, "solar-lunar-eclipses");
 const logoAsset = resolve(rootDir, "assets/lab-flask.svg");
 const npmCommand = process.platform === "win32" ? "npm.cmd" : "npm";
 
@@ -22,6 +24,7 @@ rmSync(rootDistDir, { recursive: true, force: true });
 mkdirSync(rootDistDir, { recursive: true });
 cpSync(cellDistDir, labCellDir, { recursive: true });
 cpSync(earthAppDir, labEarthDir, { recursive: true });
+cpSync(eclipsesAppDir, labEclipsesDir, { recursive: true });
 copyFileSync(logoAsset, resolve(rootDistDir, "favicon.svg"));
 copyFileSync(logoAsset, resolve(rootDistDir, "lab-logo.svg"));
 
@@ -239,6 +242,42 @@ writeFileSync(
         background: rgba(17, 24, 25, 0.78);
       }
 
+      .eclipse-visual {
+        position: relative;
+        height: 210px;
+        overflow: hidden;
+        background:
+          radial-gradient(circle at 18% 50%, #fff4a8 0 10%, #f5b84b 11% 18%, rgba(245, 184, 75, 0.2) 19% 35%, transparent 36%),
+          linear-gradient(135deg, #08111f, #111b30 58%, #05070d);
+      }
+
+      .eclipse-visual::before {
+        content: "";
+        position: absolute;
+        left: 26%;
+        top: 26%;
+        width: 62%;
+        height: 48%;
+        clip-path: polygon(0 38%, 100% 8%, 100% 92%, 0 62%);
+        background: rgba(77, 90, 122, 0.42);
+      }
+
+      .eclipse-visual::after {
+        content: "";
+        position: absolute;
+        right: 20%;
+        top: 50%;
+        width: 72px;
+        height: 72px;
+        border-radius: 50%;
+        background:
+          radial-gradient(circle at 36% 32%, #b9f0ff 0 18%, #327fbd 19% 58%, #102c57 59%);
+        transform: translateY(-50%);
+        box-shadow:
+          -118px 0 0 -46px #cfd3dc,
+          0 0 0 1px rgba(255, 255, 255, 0.24);
+      }
+
       .app-copy {
         padding: 20px;
       }
@@ -386,12 +425,15 @@ writeFileSync(
             </div>
           </a>
 
-          <div class="empty-card">
-            <div>
-              <strong>Future collection</strong>
-              Build this into a menu for labs, practice tools, demos, and projects.
+          <a class="app-card" href="/solar-lunar-eclipses/" aria-label="Open Solar and Lunar Eclipses">
+            <div class="eclipse-visual" aria-hidden="true"></div>
+            <div class="app-copy">
+              <span class="subject">Astronomy</span>
+              <h3>Solar and Lunar Eclipses</h3>
+              <p>Observe orbit motion, umbra and penumbra shadows, and why alignment matters.</p>
+              <span class="launch">Launch app <span aria-hidden="true">-></span></span>
             </div>
-          </div>
+          </a>
         </div>
       </section>
     </main>

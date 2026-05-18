@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Solar and Lunar Eclipses | Kumar's Lab</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta
+      name="description"
+      content="Observe solar and lunar eclipses with orbit motion, umbra and penumbra shadows, and alignment explanations."
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar">
+        <a class="brand" href="/" aria-label="Back to Kumar's Lab">
+          <img class="brand-mark" src="/lab-logo.svg" alt="" aria-hidden="true" />
+          <span>Kumar's Lab</span>
+        </a>
+        <div class="mode-tabs" aria-label="Eclipse type">
+          <button class="mode-tab is-active" type="button" data-mode="solar">Solar Eclipse</button>
+          <button class="mode-tab" type="button" data-mode="lunar">Lunar Eclipse</button>
+          <button class="mode-tab" type="button" data-mode="orbit">Free Orbit</button>
+        </div>
+      </header>
+
+      <section class="workspace">
+        <section class="sim-panel">
+          <canvas id="eclipseCanvas" width="1280" height="760" aria-label="Interactive eclipse orbit simulator"></canvas>
+          <div class="timeline">
+            <span>Full Moon</span>
+            <input id="phaseSlider" type="range" min="0" max="360" value="180" />
+            <span>New Moon</span>
+          </div>
+        </section>
+
+        <aside class="control-panel">
+          <div class="hero-copy">
+            <span>Orbit Lab</span>
+            <h1>Solar and Lunar Eclipses</h1>
+            <p id="modeSummary"></p>
+          </div>
+
+          <div class="readout-grid">
+            <article>
+              <span>Moon Phase Angle</span>
+              <strong id="phaseReadout">180°</strong>
+            </article>
+            <article>
+              <span>Alignment</span>
+              <strong id="alignmentReadout">Central</strong>
+            </article>
+          </div>
+
+          <div class="controls">
+            <label>
+              <span>Orbit Speed</span>
+              <input id="speedSlider" type="range" min="0" max="4" step="0.1" value="0.8" />
+            </label>
+            <label class="toggle">
+              <input id="showLabels" type="checkbox" checked />
+              <span>Show labels</span>
+            </label>
+            <label class="toggle">
+              <input id="showPaths" type="checkbox" checked />
+              <span>Show orbital paths</span>
+            </label>
+          </div>
+
+          <div class="legend">
+            <div><i class="umbra"></i><span>Umbra: full shadow</span></div>
+            <div><i class="penumbra"></i><span>Penumbra: partial shadow</span></div>
+            <div><i class="orbit"></i><span>Orbit plane, slightly tilted</span></div>
+          </div>
+
+          <section class="lesson-card">
+            <h2 id="lessonTitle"></h2>
+            <p id="lessonText"></p>
+          </section>
+
+          <section class="fact-list">
+            <h2>What To Notice</h2>
+            <ul id="noticeList"></ul>
+          </section>
+        </aside>
+      </section>
+    </main>
+
+    <script src="./main.js"></script>
+  </body>
+</html>

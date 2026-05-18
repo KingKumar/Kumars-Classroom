@@ -11,6 +11,10 @@
     {
       "source": "/layers-of-earth/:path*",
       "destination": "/layers-of-earth/index.html"
+    },
+    {
+      "source": "/solar-lunar-eclipses/:path*",
+      "destination": "/solar-lunar-eclipses/index.html"
     }
   ]
 }
