@@ -113,13 +113,26 @@ input {
 
 .timeline {
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: repeat(3, 1fr);
   align-items: center;
   gap: 14px;
   padding: 16px 18px 18px;
   color: var(--muted);
   font-size: 0.9rem;
   font-weight: 820;
+}
+
+.timeline span:nth-child(2) {
+  text-align: center;
+}
+
+.timeline span:nth-child(3) {
+  text-align: right;
+}
+
+.timeline input {
+  grid-column: 1 / -1;
+  width: 100%;
 }
 
 input[type="range"] {
