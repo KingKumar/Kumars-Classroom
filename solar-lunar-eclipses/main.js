@@ -55,6 +55,8 @@ let activeMode = "solar";
 let phase = modes.solar.phase;
 let speed = Number(speedSlider.value);
 let lastTime = performance.now();
+let simClock = 0;
+let shadowLabels = [];
 
 function resizeCanvas() {
   const rect = canvas.getBoundingClientRect();
@@ -99,6 +101,7 @@ function draw() {
   const dt = Math.min(0.05, (now - lastTime) / 1000);
   lastTime = now;
   speed = Number(speedSlider.value);
+  simClock += dt * Math.max(0.15, speed || 0.15);
   if (activeMode === "orbit") {
     phase = (phase + speed * dt * 32) % 360;
     phaseSlider.value = String(Math.round(phase));
@@ -109,7 +112,7 @@ function draw() {
   drawBackground(model);
   if (showPathsInput.checked) drawOrbit(model);
   drawSun(model);
-  drawShadowCones(model);
+  shadowLabels = drawShadowCones(model);
   drawEarth(model);
   drawMoon(model);
   drawLabels(model);
@@ -168,44 +171,98 @@ function drawOrbit({ earth, orbit }) {
   ctx.restore();
 }
 
-function drawShadowCones({ sun, earth, moon, scale }) {
-  const source = activeMode === "lunar" || activeMode === "orbit" ? earth : moon;
-  const receiver = activeMode === "solar" ? earth : moon;
-  const direction = normalize({ x: source.x - sun.x, y: source.y - sun.y });
+function drawShadowCones(model) {
+  const labels = [];
+  if (activeMode === "solar") {
+    labels.push(drawBodyShadow({ ...model, caster: model.moon, receiver: model.earth, kind: "solar" }));
+  } else if (activeMode === "lunar") {
+    labels.push(drawBodyShadow({ ...model, caster: model.earth, receiver: model.moon, kind: "lunar" }));
+  } else {
+    labels.push(drawBodyShadow({ ...model, caster: model.earth, receiver: model.moon, kind: "lunar", faint: true }));
+    labels.push(drawBodyShadow({ ...model, caster: model.moon, receiver: model.earth, kind: "solar", faint: true }));
+  }
+  return labels.flat();
+}
+
+function drawBodyShadow({ sun, caster, receiver, scale, kind, faint = false }) {
+  const direction = normalize({ x: caster.x - sun.x, y: caster.y - sun.y });
   const perpendicular = { x: -direction.y, y: direction.x };
-  const umbraLength = (activeMode === "solar" ? 280 : 470) * scale;
-  const penumbraLength = (activeMode === "solar" ? 500 : 610) * scale;
+  const umbraLength = (kind === "solar" ? 280 : 470) * scale;
+  const penumbraLength = (kind === "solar" ? 500 : 640) * scale;
+  const base = caster.r;
+  const alpha = faint ? 0.62 : 1;
+  const tip = {
+    x: caster.x + direction.x * umbraLength,
+    y: caster.y + direction.y * umbraLength,
+  };
+  const penumbraEnd = {
+    x: caster.x + direction.x * penumbraLength,
+    y: caster.y + direction.y * penumbraLength,
+  };
 
-  const base = source.r;
-  const tip = { x: source.x + direction.x * umbraLength, y: source.y + direction.y * umbraLength };
-  const penumbraEnd = { x: source.x + direction.x * penumbraLength, y: source.y + direction.y * penumbraLength };
+  drawCone({
+    origin: caster,
+    perpendicular,
+    direction,
+    startWidth: base * 1.85,
+    endPoint: penumbraEnd,
+    endWidth: base * 4.3,
+    color: `rgba(90, 109, 141, ${0.2 * alpha})`,
+  });
+  drawCone({
+    origin: caster,
+    perpendicular,
+    direction,
+    startWidth: base * 0.92,
+    endPoint: tip,
+    endWidth: Math.max(2 * scale, base * 0.05),
+    color: `rgba(3, 6, 11, ${0.72 * alpha})`,
+  });
 
-  drawCone(source, perpendicular, base * 1.85, penumbraEnd, base * 4.3, "rgba(90, 109, 141, 0.24)");
-  drawCone(source, perpendicular, base * 0.9, tip, 2 * scale, "rgba(4, 7, 12, 0.72)");
+  drawAlignmentLine(caster, receiver);
+  return [
+    {
+      text: kind === "solar" ? "Moon umbra" : "Earth umbra",
+      x: caster.x + direction.x * umbraLength * 0.52,
+      y: caster.y + direction.y * umbraLength * 0.52 + base * 1.7,
+      color: "#ffffff",
+    },
+    {
+      text: "Penumbra",
+      x: caster.x + direction.x * penumbraLength * 0.58,
+      y: caster.y + direction.y * penumbraLength * 0.58 - base * 2.1,
+      color: "#b8caec",
+    },
+  ];
+}
 
+function drawCone({ origin, perpendicular, direction, startWidth, endPoint, endWidth, color }) {
+  const gradient = ctx.createLinearGradient(origin.x, origin.y, endPoint.x, endPoint.y);
+  gradient.addColorStop(0, color);
+  gradient.addColorStop(1, color.replace(/[\d.]+\)$/, "0)"));
+  ctx.beginPath();
+  ctx.moveTo(origin.x + perpendicular.x * startWidth + direction.x * origin.r * 0.18, origin.y + perpendicular.y * startWidth + direction.y * origin.r * 0.18);
+  ctx.lineTo(endPoint.x + perpendicular.x * endWidth, endPoint.y + perpendicular.y * endWidth);
+  ctx.lineTo(endPoint.x - perpendicular.x * endWidth, endPoint.y - perpendicular.y * endWidth);
+  ctx.lineTo(origin.x - perpendicular.x * startWidth + direction.x * origin.r * 0.18, origin.y - perpendicular.y * startWidth + direction.y * origin.r * 0.18);
+  ctx.closePath();
+  ctx.fillStyle = gradient;
+  ctx.fill();
+}
+
+function drawAlignmentLine(caster, receiver) {
   ctx.save();
-  ctx.strokeStyle = "rgba(255, 255, 255, 0.52)";
+  ctx.strokeStyle = "rgba(255, 255, 255, 0.48)";
   ctx.lineWidth = 1.5 * devicePixelRatio;
   ctx.setLineDash([7 * devicePixelRatio, 7 * devicePixelRatio]);
   ctx.beginPath();
-  ctx.moveTo(source.x, source.y);
+  ctx.moveTo(caster.x, caster.y);
   ctx.lineTo(receiver.x, receiver.y);
   ctx.stroke();
   ctx.restore();
 }
 
-function drawCone(source, perpendicular, startWidth, endPoint, endWidth, color) {
-  ctx.beginPath();
-  ctx.moveTo(source.x + perpendicular.x * startWidth, source.y + perpendicular.y * startWidth);
-  ctx.lineTo(endPoint.x + perpendicular.x * endWidth, endPoint.y + perpendicular.y * endWidth);
-  ctx.lineTo(endPoint.x - perpendicular.x * endWidth, endPoint.y - perpendicular.y * endWidth);
-  ctx.lineTo(source.x - perpendicular.x * startWidth, source.y - perpendicular.y * startWidth);
-  ctx.closePath();
-  ctx.fillStyle = color;
-  ctx.fill();
-}
-
-function drawEarth({ earth }) {
+function drawEarth({ earth, angle }) {
   const gradient = ctx.createRadialGradient(earth.x - earth.r * 0.35, earth.y - earth.r * 0.4, 2, earth.x, earth.y, earth.r);
   gradient.addColorStop(0, "#a9f0ff");
   gradient.addColorStop(0.45, "#317bb7");
@@ -214,16 +271,26 @@ function drawEarth({ earth }) {
   ctx.beginPath();
   ctx.arc(earth.x, earth.y, earth.r, 0, Math.PI * 2);
   ctx.fill();
+  ctx.save();
+  ctx.beginPath();
+  ctx.arc(earth.x, earth.y, earth.r, 0, Math.PI * 2);
+  ctx.clip();
+  ctx.translate(earth.x, earth.y);
+  ctx.rotate(simClock * 1.7 + angle * 0.7);
   ctx.fillStyle = "rgba(85, 190, 128, 0.88)";
   ctx.beginPath();
-  ctx.ellipse(earth.x - earth.r * 0.18, earth.y - earth.r * 0.05, earth.r * 0.28, earth.r * 0.52, -0.7, 0, Math.PI * 2);
+  ctx.ellipse(-earth.r * 0.18, -earth.r * 0.05, earth.r * 0.28, earth.r * 0.52, -0.7, 0, Math.PI * 2);
   ctx.fill();
   ctx.beginPath();
-  ctx.ellipse(earth.x + earth.r * 0.28, earth.y + earth.r * 0.18, earth.r * 0.22, earth.r * 0.28, 0.8, 0, Math.PI * 2);
+  ctx.ellipse(earth.r * 0.28, earth.r * 0.18, earth.r * 0.22, earth.r * 0.28, 0.8, 0, Math.PI * 2);
   ctx.fill();
+  ctx.beginPath();
+  ctx.ellipse(-earth.r * 0.48, earth.r * 0.28, earth.r * 0.2, earth.r * 0.18, 0.3, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.restore();
 }
 
-function drawMoon({ moon }) {
+function drawMoon({ moon, earth }) {
   const gradient = ctx.createRadialGradient(moon.x - moon.r * 0.35, moon.y - moon.r * 0.4, 2, moon.x, moon.y, moon.r);
   gradient.addColorStop(0, "#ffffff");
   gradient.addColorStop(0.55, "#c7cbd2");
@@ -232,12 +299,24 @@ function drawMoon({ moon }) {
   ctx.beginPath();
   ctx.arc(moon.x, moon.y, moon.r, 0, Math.PI * 2);
   ctx.fill();
+  const lockAngle = Math.atan2(earth.y - moon.y, earth.x - moon.x);
+  ctx.save();
+  ctx.beginPath();
+  ctx.arc(moon.x, moon.y, moon.r, 0, Math.PI * 2);
+  ctx.clip();
+  ctx.translate(moon.x, moon.y);
+  ctx.rotate(lockAngle);
   ctx.fillStyle = "rgba(90, 96, 108, 0.55)";
   [[-0.32, -0.18, 0.18], [0.18, 0.16, 0.12], [0.28, -0.28, 0.09]].forEach(([x, y, r]) => {
     ctx.beginPath();
-    ctx.arc(moon.x + moon.r * x, moon.y + moon.r * y, moon.r * r, 0, Math.PI * 2);
+    ctx.arc(moon.r * x, moon.r * y, moon.r * r, 0, Math.PI * 2);
     ctx.fill();
   });
+  ctx.fillStyle = "rgba(255, 255, 255, 0.18)";
+  ctx.beginPath();
+  ctx.arc(-moon.r * 0.62, 0, moon.r * 0.2, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.restore();
 }
 
 function drawLabels({ sun, earth, moon, scale }) {
@@ -245,8 +324,7 @@ function drawLabels({ sun, earth, moon, scale }) {
   label("Sun", sun.x, sun.y + sun.r + 32 * scale);
   label("Earth", earth.x, earth.y + earth.r + 28 * scale);
   label("Moon", moon.x, moon.y - moon.r - 18 * scale);
-  label("Penumbra", (earth.x + moon.x) / 2, Math.min(earth.y, moon.y) - 72 * scale, "#b8caec");
-  label("Umbra", (earth.x + moon.x) / 2, Math.max(earth.y, moon.y) + 76 * scale, "#ffffff");
+  shadowLabels.forEach((item) => label(item.text, item.x, item.y, item.color));
 }
 
 function label(text, x, y, color = "#ffffff") {
