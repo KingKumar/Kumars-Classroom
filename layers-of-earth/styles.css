@@ -56,12 +56,8 @@ a {
 .brand-mark {
   width: 40px;
   height: 40px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background:
-    radial-gradient(circle at 50% 50%, #f6d25b 0 18%, #f0a531 19% 34%, #9a3034 35% 56%, #d15f2f 57% 75%, #245e8a 76%),
-    #ffffff;
-  box-shadow: var(--shadow);
+  display: block;
+  filter: drop-shadow(0 14px 22px rgba(28, 31, 29, 0.12));
 }
 
 .top-actions {

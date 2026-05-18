@@ -1,5 +1,5 @@
 import { execFileSync } from "node:child_process";
-import { cpSync, mkdirSync, rmSync, writeFileSync } from "node:fs";
+import { copyFileSync, cpSync, mkdirSync, rmSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -10,6 +10,7 @@ const cellDistDir = resolve(cellAppDir, "dist");
 const labCellDir = resolve(rootDistDir, "cell-architecture-studio");
 const earthAppDir = resolve(rootDir, "layers-of-earth");
 const labEarthDir = resolve(rootDistDir, "layers-of-earth");
+const logoAsset = resolve(rootDir, "assets/lab-flask.svg");
 const npmCommand = process.platform === "win32" ? "npm.cmd" : "npm";
 
 execFileSync(npmCommand, ["run", "build", "--", "--base=/cell-architecture-studio/"], {
@@ -21,6 +22,8 @@ rmSync(rootDistDir, { recursive: true, force: true });
 mkdirSync(rootDistDir, { recursive: true });
 cpSync(cellDistDir, labCellDir, { recursive: true });
 cpSync(earthAppDir, labEarthDir, { recursive: true });
+copyFileSync(logoAsset, resolve(rootDistDir, "favicon.svg"));
+copyFileSync(logoAsset, resolve(rootDistDir, "lab-logo.svg"));
 
 writeFileSync(
   resolve(rootDistDir, "index.html"),
@@ -30,6 +33,7 @@ writeFileSync(
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Kumar's Lab</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta
       name="description"
       content="A lab hub for interactive science, math, and learning apps."
@@ -92,24 +96,16 @@ writeFileSync(
 
       .mark {
         display: grid;
-        width: 42px;
-        height: 42px;
+        width: 46px;
+        height: 46px;
         place-items: center;
-        border: 1px solid var(--line);
-        border-radius: 8px;
-        background: var(--card);
-        box-shadow: 0 14px 34px rgba(24, 36, 34, 0.08);
       }
 
-      .mark span {
+      .mark img {
+        width: 46px;
+        height: 46px;
         display: block;
-        width: 22px;
-        height: 22px;
-        border-radius: 6px;
-        background:
-          linear-gradient(90deg, transparent 45%, rgba(255, 255, 255, 0.72) 45% 56%, transparent 56%),
-          linear-gradient(0deg, transparent 45%, rgba(255, 255, 255, 0.72) 45% 56%, transparent 56%),
-          linear-gradient(135deg, var(--green), var(--blue));
+        filter: drop-shadow(0 12px 24px rgba(24, 36, 34, 0.12));
       }
 
       .pill {
@@ -343,7 +339,7 @@ writeFileSync(
     <main class="shell">
       <header class="topbar" aria-label="Kumar's Lab">
         <div class="brand">
-          <div class="mark" aria-hidden="true"><span></span></div>
+          <div class="mark" aria-hidden="true"><img src="/lab-logo.svg" alt="" /></div>
           <span>Kumar's Lab</span>
         </div>
         <div class="pill">Interactive learning apps</div>
