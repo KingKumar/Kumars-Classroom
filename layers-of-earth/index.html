@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Layers of Earth | Kumar's Lab</title>
+    <meta
+      name="description"
+      content="Explore Earth's crust, mantle, core, minerals, rocks, thickness, temperature, and physical behavior."
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar">
+        <a class="brand" href="/" aria-label="Back to Kumar's Lab">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <span>Kumar's Lab</span>
+        </a>
+        <nav class="top-actions" aria-label="Earth layer modes">
+          <button class="mode-button is-active" type="button" data-mode="structure">Structure</button>
+          <button class="mode-button" type="button" data-mode="composition">Composition</button>
+          <button class="mode-button" type="button" data-mode="evidence">Evidence</button>
+        </nav>
+      </header>
+
+      <section class="workspace" aria-label="Layers of Earth Explorer">
+        <section class="earth-panel">
+          <div class="earth-stage">
+            <canvas id="earthCanvas" width="920" height="920" aria-label="Clickable cross-section of Earth"></canvas>
+            <div class="layer-callout" id="layerCallout">
+              <span id="calloutKicker">Selected layer</span>
+              <strong id="calloutName">Crust</strong>
+              <small id="calloutRange">0-70 km depth</small>
+            </div>
+          </div>
+
+          <div class="scale-strip" aria-label="Depth scale">
+            <span>Surface</span>
+            <i></i>
+            <span>6,371 km center</span>
+          </div>
+        </section>
+
+        <aside class="layer-browser" aria-label="Layer selector">
+          <div class="browser-head">
+            <p>Earth Systems</p>
+            <h1>Layers of Earth</h1>
+          </div>
+          <div class="layer-list" id="layerList"></div>
+        </aside>
+
+        <section class="detail-panel" aria-live="polite">
+          <div class="detail-top">
+            <span class="layer-chip" id="layerType">Compositional</span>
+            <h2 id="layerTitle">Crust</h2>
+            <p id="layerSummary"></p>
+          </div>
+
+          <div class="stat-grid">
+            <article>
+              <span>Thickness</span>
+              <strong id="thicknessValue"></strong>
+            </article>
+            <article>
+              <span>Depth Range</span>
+              <strong id="depthValue"></strong>
+            </article>
+            <article>
+              <span>Temperature</span>
+              <strong id="temperatureValue"></strong>
+            </article>
+            <article>
+              <span>Physical State</span>
+              <strong id="stateValue"></strong>
+            </article>
+          </div>
+
+          <div class="metric-block">
+            <div class="metric-row">
+              <span>Relative thickness</span>
+              <strong id="relativeThickness"></strong>
+            </div>
+            <div class="bar-track"><i id="thicknessBar"></i></div>
+          </div>
+
+          <div class="info-grid">
+            <article>
+              <h3>Makeup</h3>
+              <p id="makeupText"></p>
+            </article>
+            <article>
+              <h3>Minerals and Rocks</h3>
+              <div class="tag-list" id="mineralTags"></div>
+            </article>
+            <article>
+              <h3>What Happens Here</h3>
+              <p id="processText"></p>
+            </article>
+            <article>
+              <h3>How We Know</h3>
+              <p id="evidenceText"></p>
+            </article>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <script src="./main.js"></script>
+  </body>
+</html>

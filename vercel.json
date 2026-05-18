@@ -7,6 +7,10 @@
     {
       "source": "/cell-architecture-studio/:path*",
       "destination": "/cell-architecture-studio/index.html"
+    },
+    {
+      "source": "/layers-of-earth/:path*",
+      "destination": "/layers-of-earth/index.html"
     }
   ]
 }

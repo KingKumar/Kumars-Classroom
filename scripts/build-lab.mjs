@@ -8,6 +8,8 @@ const cellAppDir = resolve(rootDir, "cell-architecture-studio-main");
 const rootDistDir = resolve(rootDir, "dist");
 const cellDistDir = resolve(cellAppDir, "dist");
 const labCellDir = resolve(rootDistDir, "cell-architecture-studio");
+const earthAppDir = resolve(rootDir, "layers-of-earth");
+const labEarthDir = resolve(rootDistDir, "layers-of-earth");
 const npmCommand = process.platform === "win32" ? "npm.cmd" : "npm";
 
 execFileSync(npmCommand, ["run", "build", "--", "--base=/cell-architecture-studio/"], {
@@ -18,6 +20,7 @@ execFileSync(npmCommand, ["run", "build", "--", "--base=/cell-architecture-studi
 rmSync(rootDistDir, { recursive: true, force: true });
 mkdirSync(rootDistDir, { recursive: true });
 cpSync(cellDistDir, labCellDir, { recursive: true });
+cpSync(earthAppDir, labEarthDir, { recursive: true });
 
 writeFileSync(
   resolve(rootDistDir, "index.html"),
@@ -210,6 +213,36 @@ writeFileSync(
         background: #dfeae5;
       }
 
+      .app-visual {
+        position: relative;
+        height: 210px;
+        overflow: hidden;
+        background:
+          radial-gradient(circle at 50% 50%, #f6d25b 0 11%, #f0a531 12% 26%, #9a3034 27% 46%, #d15f2f 47% 66%, #8d6a38 67% 78%, #245e8a 79% 100%);
+      }
+
+      .app-visual::before {
+        content: "";
+        position: absolute;
+        inset: 20px;
+        border-radius: 50%;
+        background:
+          linear-gradient(90deg, transparent 48%, rgba(255, 255, 255, 0.62) 48% 51%, transparent 51%),
+          radial-gradient(circle at 50% 50%, transparent 0 12%, rgba(255, 255, 255, 0.28) 12% 13%, transparent 13% 27%, rgba(255, 255, 255, 0.24) 27% 28%, transparent 28% 48%, rgba(255, 255, 255, 0.22) 48% 49%, transparent 49%);
+        box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.36);
+      }
+
+      .app-visual::after {
+        content: "";
+        position: absolute;
+        right: 28px;
+        bottom: 22px;
+        width: 112px;
+        height: 42px;
+        border-radius: 8px;
+        background: rgba(17, 24, 25, 0.78);
+      }
+
       .app-copy {
         padding: 20px;
       }
@@ -347,12 +380,15 @@ writeFileSync(
             </div>
           </a>
 
-          <div class="empty-card">
-            <div>
-              <strong>Next app slot</strong>
-              Add another app folder and card when the next lab tool is ready.
+          <a class="app-card" href="/layers-of-earth/" aria-label="Open Layers of Earth">
+            <div class="app-visual" aria-hidden="true"></div>
+            <div class="app-copy">
+              <span class="subject">Earth Science</span>
+              <h3>Layers of Earth</h3>
+              <p>Explore the crust, mantle, and core with thickness, composition, minerals, rocks, and evidence.</p>
+              <span class="launch">Launch app <span aria-hidden="true">-></span></span>
             </div>
-          </div>
+          </a>
 
           <div class="empty-card">
             <div>
