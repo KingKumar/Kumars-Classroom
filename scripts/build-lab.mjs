@@ -157,14 +157,6 @@ writeFileSync(
         line-height: 1.55;
       }
 
-      .notice {
-        border-left: 4px solid var(--gold);
-        padding: 2px 0 2px 16px;
-        color: #695234;
-        font-size: 0.96rem;
-        line-height: 1.5;
-      }
-
       .apps-header {
         display: flex;
         align-items: end;
@@ -179,13 +171,6 @@ writeFileSync(
         margin: 0;
         font-size: clamp(1.6rem, 3vw, 2.25rem);
         letter-spacing: 0;
-      }
-
-      .apps-header p {
-        max-width: 430px;
-        margin: 0;
-        color: var(--muted);
-        line-height: 1.5;
       }
 
       .app-grid {
@@ -461,10 +446,6 @@ writeFileSync(
           grid-template-columns: 1fr;
         }
 
-        .notice {
-          max-width: 620px;
-        }
-
         .apps-header {
           align-items: start;
           flex-direction: column;
@@ -510,9 +491,6 @@ writeFileSync(
             A growing collection of lab-ready apps for science, math, and whatever gets built next.
           </p>
         </div>
-        <p class="notice">
-          This hub is set up for expansion: each app can live in its own folder and appear here as a launch card.
-        </p>
       </section>
 
       <section aria-labelledby="apps-title">
@@ -520,7 +498,6 @@ writeFileSync(
           <div>
             <h2 id="apps-title">Apps</h2>
           </div>
-          <p>Start with the cell studio. More subjects can plug into the same homepage as Kumar's Lab grows.</p>
         </div>
 
         <div class="app-grid">
