@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather & Atmosphere Simulator | Kumar's Lab</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <header class="topbar">
+        <a class="brand" href="/"><img src="/lab-logo.svg" alt="" /><span>Kumar's Lab</span></a>
+        <div class="preset-row">
+          <button data-preset="clear" type="button">Clear</button>
+          <button data-preset="storm" type="button">Storm</button>
+          <button data-preset="front" type="button">Cold Front</button>
+        </div>
+      </header>
+      <section class="layout">
+        <section class="sky-panel">
+          <div class="intro"><p>Earth Science</p><h1>Weather & Atmosphere Simulator</h1></div>
+          <canvas id="weatherCanvas" width="1100" height="680" aria-label="Weather simulator"></canvas>
+        </section>
+        <aside class="control-panel">
+          <div class="readouts">
+            <article><span>Cloud Base</span><strong id="cloudReadout"></strong></article>
+            <article><span>Weather</span><strong id="weatherReadout"></strong></article>
+            <article><span>Pressure Trend</span><strong id="pressureReadout"></strong></article>
+            <article><span>Wind</span><strong id="windReadout"></strong></article>
+          </div>
+          <div class="controls" id="controls"></div>
+          <section class="layers">
+            <h2>Atmosphere Layers</h2>
+            <div id="layerList"></div>
+          </section>
+        </aside>
+      </section>
+    </main>
+    <script src="./main.js"></script>
+  </body>
+</html>

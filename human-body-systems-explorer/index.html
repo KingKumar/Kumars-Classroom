@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Human Body Systems Explorer | Kumar's Lab</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <header class="topbar">
+        <a class="brand" href="/"><img src="/lab-logo.svg" alt="" /><span>Kumar's Lab</span></a>
+        <nav id="systemTabs" class="tabs" aria-label="Body systems"></nav>
+      </header>
+      <section class="layout">
+        <section class="body-panel">
+          <div class="intro"><p>Life Science</p><h1>Human Body Systems Explorer</h1></div>
+          <div class="body-stage">
+            <svg viewBox="0 0 420 680" role="img" aria-label="Human body diagram">
+              <path class="figure" d="M210 72c35 0 63 28 63 63 0 28-18 52-43 60v45h73c24 0 43 19 43 43v136h-54V286h-32v310h-52V420h-24v176h-52V286h-32v133H46V283c0-24 19-43 43-43h73v-45c-25-8-43-32-43-60 0-35 28-63 63-63h28Z"/>
+              <g id="organLayer"></g>
+            </svg>
+          </div>
+        </section>
+        <aside class="detail-panel">
+          <span id="systemType"></span>
+          <h2 id="systemName"></h2>
+          <p id="summary"></p>
+          <div class="stat-grid">
+            <article><span>Main Job</span><strong id="job"></strong></article>
+            <article><span>Key Tissue</span><strong id="tissue"></strong></article>
+          </div>
+          <section><h3>Major Parts</h3><div class="chips" id="parts"></div></section>
+          <section><h3>Works With</h3><p id="connections"></p></section>
+          <section><h3>Watch For</h3><p id="watch"></p></section>
+        </aside>
+      </section>
+    </main>
+    <script src="./main.js"></script>
+  </body>
+</html>

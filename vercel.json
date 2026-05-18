@@ -15,6 +15,22 @@
     {
       "source": "/solar-lunar-eclipses/:path*",
       "destination": "/solar-lunar-eclipses/index.html"
+    },
+    {
+      "source": "/periodic-table-lab/:path*",
+      "destination": "/periodic-table-lab/index.html"
+    },
+    {
+      "source": "/forces-motion-playground/:path*",
+      "destination": "/forces-motion-playground/index.html"
+    },
+    {
+      "source": "/human-body-systems-explorer/:path*",
+      "destination": "/human-body-systems-explorer/index.html"
+    },
+    {
+      "source": "/weather-atmosphere-simulator/:path*",
+      "destination": "/weather-atmosphere-simulator/index.html"
     }
   ]
 }

@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Periodic Table Lab | Kumar's Lab</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <header class="topbar">
+        <a class="brand" href="/"><img src="/lab-logo.svg" alt="" /><span>Kumar's Lab</span></a>
+        <div class="filters" id="filters"></div>
+      </header>
+
+      <section class="layout">
+        <section class="table-panel">
+          <div class="intro">
+            <p>Chemistry</p>
+            <h1>Periodic Table Lab</h1>
+          </div>
+          <div class="periodic-table" id="periodicTable" aria-label="Periodic table elements"></div>
+        </section>
+
+        <aside class="detail-panel">
+          <div class="element-hero">
+            <span id="atomicNumber"></span>
+            <strong id="symbol"></strong>
+            <h2 id="name"></h2>
+            <p id="category"></p>
+          </div>
+
+          <div class="atom-view" id="atomView" aria-label="Bohr model"></div>
+
+          <div class="stats">
+            <article><span>Atomic Mass</span><strong id="mass"></strong></article>
+            <article><span>State</span><strong id="state"></strong></article>
+            <article><span>Group</span><strong id="group"></strong></article>
+            <article><span>Common Ions</span><strong id="ions"></strong></article>
+          </div>
+
+          <section class="info">
+            <h3>Behavior</h3>
+            <p id="behavior"></p>
+          </section>
+          <section class="info">
+            <h3>Uses and Examples</h3>
+            <div class="chips" id="uses"></div>
+          </section>
+        </aside>
+      </section>
+    </main>
+    <script src="./main.js"></script>
+  </body>
+</html>

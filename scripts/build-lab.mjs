@@ -12,6 +12,14 @@ const earthAppDir = resolve(rootDir, "layers-of-earth");
 const labEarthDir = resolve(rootDistDir, "layers-of-earth");
 const eclipsesAppDir = resolve(rootDir, "solar-lunar-eclipses");
 const labEclipsesDir = resolve(rootDistDir, "solar-lunar-eclipses");
+const periodicAppDir = resolve(rootDir, "periodic-table-lab");
+const labPeriodicDir = resolve(rootDistDir, "periodic-table-lab");
+const forcesAppDir = resolve(rootDir, "forces-motion-playground");
+const labForcesDir = resolve(rootDistDir, "forces-motion-playground");
+const bodyAppDir = resolve(rootDir, "human-body-systems-explorer");
+const labBodyDir = resolve(rootDistDir, "human-body-systems-explorer");
+const weatherAppDir = resolve(rootDir, "weather-atmosphere-simulator");
+const labWeatherDir = resolve(rootDistDir, "weather-atmosphere-simulator");
 const logoAsset = resolve(rootDir, "assets/lab-flask.svg");
 const npmCommand = process.platform === "win32" ? "npm.cmd" : "npm";
 
@@ -25,6 +33,10 @@ mkdirSync(rootDistDir, { recursive: true });
 cpSync(cellDistDir, labCellDir, { recursive: true });
 cpSync(earthAppDir, labEarthDir, { recursive: true });
 cpSync(eclipsesAppDir, labEclipsesDir, { recursive: true });
+cpSync(periodicAppDir, labPeriodicDir, { recursive: true });
+cpSync(forcesAppDir, labForcesDir, { recursive: true });
+cpSync(bodyAppDir, labBodyDir, { recursive: true });
+cpSync(weatherAppDir, labWeatherDir, { recursive: true });
 copyFileSync(logoAsset, resolve(rootDistDir, "favicon.svg"));
 copyFileSync(logoAsset, resolve(rootDistDir, "lab-logo.svg"));
 
@@ -278,6 +290,113 @@ writeFileSync(
           0 0 0 1px rgba(255, 255, 255, 0.24);
       }
 
+      .periodic-visual,
+      .forces-visual,
+      .body-visual,
+      .weather-visual {
+        position: relative;
+        height: 210px;
+        overflow: hidden;
+      }
+
+      .periodic-visual {
+        display: grid;
+        grid-template-columns: repeat(8, 1fr);
+        gap: 6px;
+        padding: 22px;
+        background: linear-gradient(135deg, #e8f5ef, #dce8f8);
+      }
+
+      .periodic-visual span {
+        border-radius: 6px;
+        background: #ffffff;
+        box-shadow: inset 0 0 0 1px rgba(22, 32, 31, 0.12);
+      }
+
+      .periodic-visual span:nth-child(3n) { background: #e0f4ee; }
+      .periodic-visual span:nth-child(4n) { background: #e6edf8; }
+      .periodic-visual span:nth-child(5n) { background: #fff0d9; }
+
+      .forces-visual {
+        background: linear-gradient(180deg, #dfeff7 0 68%, #6f9964 69%);
+      }
+
+      .forces-visual::before {
+        content: "";
+        position: absolute;
+        left: 24%;
+        bottom: 28%;
+        width: 86px;
+        height: 58px;
+        border-radius: 8px;
+        background: #326fd1;
+        box-shadow: 92px -42px 0 -34px #258f5d;
+      }
+
+      .forces-visual::after {
+        content: "";
+        position: absolute;
+        left: 41%;
+        bottom: 45%;
+        width: 130px;
+        height: 5px;
+        background: #245bd0;
+        transform: rotate(-18deg);
+        box-shadow: -68px 48px 0 #c04444;
+      }
+
+      .body-visual {
+        background: linear-gradient(180deg, #fff4f2, #eadfe1);
+      }
+
+      .body-visual::before {
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: 20px;
+        width: 150px;
+        height: 170px;
+        border-radius: 70px 70px 42px 42px;
+        background:
+          radial-gradient(circle at 50% 28%, #6f63c7 0 18%, transparent 19%),
+          radial-gradient(circle at 50% 58%, #c83e55 0 13%, transparent 14%),
+          radial-gradient(ellipse at 42% 58%, #2f8ca8 0 18%, transparent 19%),
+          radial-gradient(ellipse at 58% 58%, #2f8ca8 0 18%, transparent 19%),
+          #ead5d3;
+        transform: translateX(-50%);
+        box-shadow: inset 0 0 0 3px rgba(73, 54, 55, 0.28);
+      }
+
+      .weather-visual {
+        background: linear-gradient(180deg, #77c7f2 0 58%, #6da064 59%);
+      }
+
+      .weather-visual::before {
+        content: "";
+        position: absolute;
+        left: 20%;
+        top: 26%;
+        width: 190px;
+        height: 72px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.88);
+        box-shadow:
+          54px 14px 0 -8px rgba(255, 255, 255, 0.78),
+          160px 24px 0 -22px rgba(76, 92, 105, 0.64);
+      }
+
+      .weather-visual::after {
+        content: "";
+        position: absolute;
+        left: 42%;
+        top: 58%;
+        width: 90px;
+        height: 4px;
+        background: #416996;
+        transform: rotate(105deg);
+        box-shadow: 24px 0 0 #416996, 48px 0 0 #416996;
+      }
+
       .app-copy {
         padding: 20px;
       }
@@ -431,6 +550,46 @@ writeFileSync(
               <span class="subject">Astronomy</span>
               <h3>Solar and Lunar Eclipses</h3>
               <p>Observe orbit motion, umbra and penumbra shadows, and why alignment matters.</p>
+              <span class="launch">Launch app <span aria-hidden="true">-></span></span>
+            </div>
+          </a>
+
+          <a class="app-card" href="/periodic-table-lab/" aria-label="Open Periodic Table Lab">
+            <div class="periodic-visual" aria-hidden="true">${Array.from({ length: 40 }, () => "<span></span>").join("")}</div>
+            <div class="app-copy">
+              <span class="subject">Chemistry</span>
+              <h3>Periodic Table Lab</h3>
+              <p>Filter elements, inspect electron shells, and connect atomic structure to uses and ions.</p>
+              <span class="launch">Launch app <span aria-hidden="true">-></span></span>
+            </div>
+          </a>
+
+          <a class="app-card" href="/forces-motion-playground/" aria-label="Open Forces and Motion Playground">
+            <div class="forces-visual" aria-hidden="true"></div>
+            <div class="app-copy">
+              <span class="subject">Physics</span>
+              <h3>Forces & Motion Playground</h3>
+              <p>Adjust mass, force, angle, friction, and gravity while vectors and motion respond live.</p>
+              <span class="launch">Launch app <span aria-hidden="true">-></span></span>
+            </div>
+          </a>
+
+          <a class="app-card" href="/human-body-systems-explorer/" aria-label="Open Human Body Systems Explorer">
+            <div class="body-visual" aria-hidden="true"></div>
+            <div class="app-copy">
+              <span class="subject">Life Science</span>
+              <h3>Human Body Systems Explorer</h3>
+              <p>Switch body systems and study their organs, tissues, jobs, and connections.</p>
+              <span class="launch">Launch app <span aria-hidden="true">-></span></span>
+            </div>
+          </a>
+
+          <a class="app-card" href="/weather-atmosphere-simulator/" aria-label="Open Weather and Atmosphere Simulator">
+            <div class="weather-visual" aria-hidden="true"></div>
+            <div class="app-copy">
+              <span class="subject">Earth Science</span>
+              <h3>Weather & Atmosphere Simulator</h3>
+              <p>Change humidity, pressure, temperature, and wind to form clouds, rain, and storms.</p>
               <span class="launch">Launch app <span aria-hidden="true">-></span></span>
             </div>
           </a>

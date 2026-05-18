@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Forces & Motion Playground | Kumar's Lab</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <header class="topbar">
+        <a class="brand" href="/"><img src="/lab-logo.svg" alt="" /><span>Kumar's Lab</span></a>
+        <div class="actions">
+          <button id="launchButton" type="button">Launch</button>
+          <button id="resetButton" type="button">Reset</button>
+        </div>
+      </header>
+      <section class="layout">
+        <section class="stage-panel">
+          <div class="intro"><p>Physics</p><h1>Forces & Motion Playground</h1></div>
+          <canvas id="motionCanvas" width="1100" height="680" aria-label="Forces and motion simulation"></canvas>
+        </section>
+        <aside class="control-panel">
+          <div class="readouts">
+            <article><span>Acceleration</span><strong id="accelReadout"></strong></article>
+            <article><span>Velocity</span><strong id="velocityReadout"></strong></article>
+            <article><span>Momentum</span><strong id="momentumReadout"></strong></article>
+            <article><span>Kinetic Energy</span><strong id="energyReadout"></strong></article>
+          </div>
+          <div class="controls" id="controls"></div>
+          <section class="notes">
+            <h2>Vector Model</h2>
+            <p>The blue arrow is applied force, red is friction, and green is velocity. Net force changes acceleration through F = ma.</p>
+          </section>
+        </aside>
+      </section>
+    </main>
+    <script src="./main.js"></script>
+  </body>
+</html>
