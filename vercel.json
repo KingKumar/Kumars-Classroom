@@ -1,0 +1,12 @@
+{
+  "framework": null,
+  "installCommand": "npm ci --prefix cell-architecture-studio-main",
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "rewrites": [
+    {
+      "source": "/cell-architecture-studio/:path*",
+      "destination": "/cell-architecture-studio/index.html"
+    }
+  ]
+}
