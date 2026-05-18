@@ -7,7 +7,7 @@ const rootDir = dirname(fileURLToPath(import.meta.url)).replace(/\/scripts$/, ""
 const cellAppDir = resolve(rootDir, "cell-architecture-studio-main");
 const rootDistDir = resolve(rootDir, "dist");
 const cellDistDir = resolve(cellAppDir, "dist");
-const classroomCellDir = resolve(rootDistDir, "cell-architecture-studio");
+const labCellDir = resolve(rootDistDir, "cell-architecture-studio");
 const npmCommand = process.platform === "win32" ? "npm.cmd" : "npm";
 
 execFileSync(npmCommand, ["run", "build", "--", "--base=/cell-architecture-studio/"], {
@@ -17,7 +17,7 @@ execFileSync(npmCommand, ["run", "build", "--", "--base=/cell-architecture-studi
 
 rmSync(rootDistDir, { recursive: true, force: true });
 mkdirSync(rootDistDir, { recursive: true });
-cpSync(cellDistDir, classroomCellDir, { recursive: true });
+cpSync(cellDistDir, labCellDir, { recursive: true });
 
 writeFileSync(
   resolve(rootDistDir, "index.html"),
@@ -26,10 +26,10 @@ writeFileSync(
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Kumar's Classroom</title>
+    <title>Kumar's Lab</title>
     <meta
       name="description"
-      content="A classroom hub for interactive science, math, and learning apps."
+      content="A lab hub for interactive science, math, and learning apps."
     />
     <style>
       :root {
@@ -308,10 +308,10 @@ writeFileSync(
   </head>
   <body>
     <main class="shell">
-      <header class="topbar" aria-label="Kumar's Classroom">
+      <header class="topbar" aria-label="Kumar's Lab">
         <div class="brand">
           <div class="mark" aria-hidden="true"><span></span></div>
-          <span>Kumar's Classroom</span>
+          <span>Kumar's Lab</span>
         </div>
         <div class="pill">Interactive learning apps</div>
       </header>
@@ -320,7 +320,7 @@ writeFileSync(
         <div>
           <h1>Pick a lab. Start exploring.</h1>
           <p class="lede">
-            A growing collection of classroom-ready apps for science, math, and whatever gets built next.
+            A growing collection of lab-ready apps for science, math, and whatever gets built next.
           </p>
         </div>
         <p class="notice">
@@ -333,7 +333,7 @@ writeFileSync(
           <div>
             <h2 id="apps-title">Apps</h2>
           </div>
-          <p>Start with the cell studio. More subjects can plug into the same homepage as the classroom grows.</p>
+          <p>Start with the cell studio. More subjects can plug into the same homepage as Kumar's Lab grows.</p>
         </div>
 
         <div class="app-grid">
@@ -350,7 +350,7 @@ writeFileSync(
           <div class="empty-card">
             <div>
               <strong>Next app slot</strong>
-              Add another app folder and card when the next classroom tool is ready.
+              Add another app folder and card when the next lab tool is ready.
             </div>
           </div>
 

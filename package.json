@@ -2,7 +2,7 @@
   "private": true,
   "scripts": {
     "dev": "npm run dev --prefix cell-architecture-studio-main",
-    "build": "node scripts/build-classroom.mjs",
+    "build": "node scripts/build-lab.mjs",
     "preview": "npx --prefix cell-architecture-studio-main vite preview",
     "verify": "npm run verify --prefix cell-architecture-studio-main"
   },
